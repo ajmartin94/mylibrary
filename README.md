@@ -30,3 +30,7 @@ As a user, I want to have books recommended to me that fit my interests
 - Integrate other APIs to provide links/embed audio/eBook information
 - Rating and commenting system for books
 - Intelligent recommendation system in python
+
+## Known/Expected Challenges
+- Huge data. Strategy right now is to create a database with a minimal amount of data per book and expand when necessary. Using Open Library API for free book information. 
+- Unfamiliar with Django. Confident it can be learned quickly but still a known challenge. 
