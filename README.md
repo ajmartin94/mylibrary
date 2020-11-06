@@ -27,8 +27,8 @@ As a user, I want to have books recommended to me that fit my interests
 
 ## Stretch Goals
 - Bookshelf visualization with cover art
-- Integrate other APIs to provide links/embed audio/eBook information
 - Rating and commenting system for books
+- Integrate other APIs to provide links/embed audio/eBook information
 - Intelligent recommendation system in python
 
 ## Known/Expected Challenges
