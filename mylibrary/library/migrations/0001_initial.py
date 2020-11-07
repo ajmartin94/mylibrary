@@ -29,5 +29,5 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('userid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='library.user')),
             ],
-        ),
+        )
     ]
