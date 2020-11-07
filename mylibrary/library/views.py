@@ -6,5 +6,5 @@ def index(req) :
     return HttpResponse('Yooo, you made it!')
 
 def search(req,criteria) :
-    criteria = criteria.replace('+',' ')
-    return HttpResponse(f'{criteria}')
+    resp = requests.get(f'http://openlibrary.org/search.json?title={criteria}')
+    return HttpResponse(f'<p>{resp.json()}</p>')
