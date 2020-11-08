@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from library.models import Books
 import requests
 
@@ -12,13 +12,17 @@ def search(req,criteria) :
     return HttpResponse(f'{resp.json()}')
 
 def book_select(req,identifier) :
-    resp = requests.get(f'https://openlibrary.org/works/{identifier}.json')
-    book = resp.json()
-    new_book = Books(
-        title=book['title'],
-        authors=book['authors'],
-        library_id=book['key'],
-        cover_art=book['covers']
-    )
-    new_book.save()
-    return HttpResponse('yo')
+    try:
+        existing = Books.objects.get(library_id=identifier)
+    except: 
+        resp = requests.get(f'https://openlibrary.org/works/{identifier}.json')
+        book = resp.json()
+        new_book = Books(
+            title=book['title'],
+            library_id=identifier,
+            data=book
+        )
+        new_book.save()
+        return JsonResponse(book)
+    else:
+        return JsonResponse(existing.data)

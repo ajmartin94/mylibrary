@@ -12,7 +12,6 @@ class Library(models.Model) :
 
 class Books(models.Model) :
     title=models.CharField(max_length=100)
-    authors=models.CharField(max_length=255)
     library_id=models.CharField(max_length=100)
-    cover_art=models.CharField(max_length=200)
     libraries=models.ManyToManyField(Library)
+    data=models.JSONField()
