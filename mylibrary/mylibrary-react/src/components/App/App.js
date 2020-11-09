@@ -9,6 +9,7 @@ import SignUp from '../Main/Signup'
 import styled from 'styled-components';
 import {Switch,Route} from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Main = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ const Main = styled.div`
 `
 
 function App() {
+
   const [data,setData] = useState(null)
   const [searchData,setSearchData] = useState(null)
   const [libraryData,setLibraryData] = useState(null)
@@ -26,8 +28,24 @@ function App() {
     
   }
 
-  const handleSignUp = (userData) => {
-    console.log(userData);
+  const handleSignUp = async (userData) => {
+    let csrftoken;
+    await axios.get('http://localhost:8000/library/gettoken')
+    .then(token => {
+      csrftoken = token.data
+    })
+    
+    await axios({
+      method: 'post',
+      url:`http://localhost:8000/library/adduser`,
+      data: userData,
+      headers: {
+        'X-CSRFTOKEN': csrftoken
+      }
+    })
+    .then(resp => 
+      console.log(resp)
+    )
   }
 
   return (
