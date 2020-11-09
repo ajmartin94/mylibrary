@@ -26,6 +26,10 @@ function App() {
     
   }
 
+  const handleSignUp = (userData) => {
+    console.log(userData);
+  }
+
   return (
     <div>
       <Header />
@@ -41,7 +45,7 @@ function App() {
             <Library libraryData={libraryData} />
           </Route> */}
           <Route path='/signup'>
-            <SignUp />
+            <SignUp handleSignUp={handleSignUp} />
           </Route>
           <Route path='/login'>
             <Login />
