@@ -14,6 +14,9 @@ function App() {
 
   return (
     <div className="App">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">MyLibrary</a>
+      </nav>
       <h1>Yooo</h1>
       <button onClick={handleClick}>Click me!</button>
     </div>
