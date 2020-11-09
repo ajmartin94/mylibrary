@@ -8,8 +8,7 @@ def index(req) :
 
 def search(req,criteria) :
     resp = requests.get(f'http://openlibrary.org/search.json?title={criteria}')
-    search_results = resp.json()['docs'][:10]
-    return HttpResponse(f'{resp.json()}')
+    return JsonResponse(resp.json())
 
 def book_select(req,identifier) :
     try:
