@@ -29,19 +29,19 @@ function App() {
   }
 
   const handleSignUp = async (userData) => {
-    let csrftoken;
-    await axios.get('http://localhost:8000/library/gettoken')
-    .then(token => {
-      csrftoken = token.data
-    })
+    // let csrftoken;
+    // await axios.get('http://localhost:8000/library/gettoken')
+    // .then(token => {
+    //   csrftoken = token.data
+    // })
     
     await axios({
       method: 'post',
       url:`http://localhost:8000/library/adduser`,
       data: userData,
-      headers: {
-        'X-CSRFTOKEN': csrftoken
-      }
+      // headers: {
+      //   'X-CSRFTOKEN': csrftoken
+      // }
     })
     .then(resp => 
       console.log(resp)

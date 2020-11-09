@@ -4,6 +4,7 @@ from library.models import Books
 import requests
 from django.contrib.auth.models import User
 import django.middleware.csrf
+import json
 
 def index(req) :
     return HttpResponse('Yooo, you made it!')
@@ -29,12 +30,13 @@ def book_select(req,identifier) :
         return JsonResponse(existing.data)
 
 def add_user(req) :
-    print(req.data)
-    user = User.objects.create_user(username,email,password)
-    user.first_name = first_name
-    user.last_name = last_name
+    body = json.loads(req.body.decode('utf-8'))
+    print(body)
+    user = User.objects.create_user(body['username'],body['email'],body['password'])
+    user.first_name = body['first_name']
+    user.last_name = body['last_name']
     user.save()
-    return JsonResponse({valid:True})
+    return HttpResponse(status=204)
 
 # def authenticate_user(req,username,password) :
 
