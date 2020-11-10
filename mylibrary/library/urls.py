@@ -8,5 +8,5 @@ urlpatterns = [
     path('select/<str:identifier>',views.book_select),
     path('gettoken',views.send_token),
     path('adduser',views.add_user),
-    # path('authuser/<str:username>/<str:password>',views.authuser)
+    path('authuser',views.authenticate_user)
 ]

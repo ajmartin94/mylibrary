@@ -28,20 +28,22 @@ function App() {
     
   }
 
+  const handleLogin = (userData) => {
+    axios({
+      method:'post',
+      url:`http://localhost:8000/library/authuser`,
+      data: userData
+    })
+    .then(resp => {
+      console.log(resp)
+    })
+  }
+
   const handleSignUp = async (userData) => {
-    // let csrftoken;
-    // await axios.get('http://localhost:8000/library/gettoken')
-    // .then(token => {
-    //   csrftoken = token.data
-    // })
-    
     await axios({
       method: 'post',
       url:`http://localhost:8000/library/adduser`,
       data: userData,
-      // headers: {
-      //   'X-CSRFTOKEN': csrftoken
-      // }
     })
     .then(resp => 
       console.log(resp)
@@ -66,7 +68,7 @@ function App() {
             <SignUp handleSignUp={handleSignUp} />
           </Route>
           <Route path='/login'>
-            <Login />
+            <Login handleLogin={handleLogin}/>
           </Route>
         </Switch>
       </Main>
