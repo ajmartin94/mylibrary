@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 
 function Library(props) {
     return (
         <div>
-            {props.libraryData.map}
+            {props.libraryData && props.libraryData.map}
         </div>
     )
 }

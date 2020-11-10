@@ -1,8 +1,10 @@
 import React,{useState} from 'react';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 function SearchForm(props) {
     const [searchCriteria,setSearchCriteria] = useState('')
+    const history = useHistory()
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -11,6 +13,7 @@ function SearchForm(props) {
         .then(resp => {
             const relevant_data = resp.data.docs.slice(0,10)
             props.setSearchData(relevant_data)
+            history.push('/results')
         })
     }
 

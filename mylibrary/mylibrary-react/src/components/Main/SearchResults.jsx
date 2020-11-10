@@ -14,14 +14,6 @@ const CardWrapper = styled.div`
 function SearchResults(props) {
     const history = useHistory();
 
-    const handleClick = (key) => {
-        const identifier = key.replace('/works/','');
-        axios.get(`http://localhost:8000/library/select/${identifier}`)
-        .then(resp => {
-            history.push('/')
-        })
-    }
-
     return (
         <CardWrapper>
             {props.searchData.map((result,index) => {
@@ -31,7 +23,7 @@ function SearchResults(props) {
                             <h5 className='card-title'>{result.title_suggest}</h5>
                             <h6 className='card-subtitle mb-2 text-muted'>{result.author_name}</h6>
                             <button 
-                                onClick={()=>handleClick(result.key)} 
+                                onClick={()=>props.handleAddToLibrary(result.key)} 
                                 className='btn btn-primary'
                             >Add to Library</button>
                         </div>

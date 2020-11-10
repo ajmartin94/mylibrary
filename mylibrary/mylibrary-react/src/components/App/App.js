@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Header from '../Partials/Header'
 import Footer from '../Partials/Footer'
 import SearchForm from '../Main/SearchForm'
@@ -28,8 +28,25 @@ function App() {
 
   const history = useHistory();
 
+  useEffect(()=>{
+    setLoginError(null)
+    updateLibraryData()
+  },[currentUser])
+  
   const updateLibraryData = () => {
-    
+    if (currentUser) {
+      axios({
+        method: 'post',
+        url: `http://localhost:8000/library/data`,
+        data: {
+          username: currentUser.username
+        }
+      })
+      .then(resp => {
+        setLibraryData(resp.data);
+        console.log('setting library data')
+      })
+    }
   }
 
   const handleLogin = (userData) => {
@@ -40,12 +57,15 @@ function App() {
     })
     .then(resp => {
       setCurrentUser(resp.data)
-      setLoginError(null)
       history.goBack();
     })
     .catch(err => {
       setLoginError('Invalid username or password')
     })
+  }
+
+  const handleLogout = () => {
+    setCurrentUser(null)
   }
 
   const handleSignUp = async (userData) => {
@@ -62,19 +82,38 @@ function App() {
     .catch(err => alert(err))
   }
 
+  const handleAddToLibrary = (key) => {
+    const identifier = key.replace('/works/','');
+    axios({
+      method: 'post',
+      url: `http://localhost:8000/library/select`,
+      data: {
+        key: identifier
+      }
+    })
+    .then(resp => {
+        history.push('/')
+    })
+  }
+
   return (
     <div>
-      <Header />
+      <Header user={currentUser} handleLogout={handleLogout}/>
       <Main>
         <Switch>
           <Route path='/results'>
-            <SearchResults searchData={searchData} />
+            <SearchResults 
+              searchData={searchData}
+              handleAddToLibrary={handleAddToLibrary} 
+            />
           </Route>
           <Route path='/library'>
             <SearchForm 
               setSearchData={setSearchData}  
             />
-            <Library libraryData={libraryData} />
+            <Library 
+              libraryData={libraryData} 
+            />
           </Route>
           <Route path='/signup'>
             <SignUp handleSignUp={handleSignUp} />
