@@ -6,8 +6,9 @@ import SearchForm from '../Main/SearchForm'
 import SearchResults from '../Main/SearchResults'
 import Login from '../Main/Login'
 import SignUp from '../Main/Signup'
+import Library from '../Main/Library'
 import styled from 'styled-components';
-import {Switch,Route} from 'react-router-dom';
+import {Switch,Route,useHistory} from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -23,6 +24,9 @@ function App() {
   const [searchData,setSearchData] = useState(null)
   const [libraryData,setLibraryData] = useState(null)
   const [currentUser,setCurrentUser] = useState(null)
+  const [loginError,setLoginError] = useState(null)
+
+  const history = useHistory();
 
   const updateLibraryData = () => {
     
@@ -35,7 +39,12 @@ function App() {
       data: userData
     })
     .then(resp => {
-      console.log(resp)
+      setCurrentUser(resp.data)
+      setLoginError(null)
+      history.goBack();
+    })
+    .catch(err => {
+      setLoginError('Invalid username or password')
     })
   }
 
@@ -45,30 +54,33 @@ function App() {
       url:`http://localhost:8000/library/adduser`,
       data: userData,
     })
-    .then(resp => 
-      console.log(resp)
-    )
+    .then(resp => {
+      setCurrentUser(resp.data)
+      setLoginError(null)
+      history.go(-2);
+    })
+    .catch(err => alert(err))
   }
 
   return (
     <div>
       <Header />
       <Main>
-        <SearchForm 
-          setSearchData={setSearchData}  
-        />
         <Switch>
           <Route path='/results'>
             <SearchResults searchData={searchData} />
           </Route>
-          {/* <Route path='/library'>
+          <Route path='/library'>
+            <SearchForm 
+              setSearchData={setSearchData}  
+            />
             <Library libraryData={libraryData} />
-          </Route> */}
+          </Route>
           <Route path='/signup'>
             <SignUp handleSignUp={handleSignUp} />
           </Route>
           <Route path='/login'>
-            <Login handleLogin={handleLogin}/>
+            <Login handleLogin={handleLogin} loginError={loginError}/>
           </Route>
         </Switch>
       </Main>

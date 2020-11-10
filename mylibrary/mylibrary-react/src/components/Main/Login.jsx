@@ -34,6 +34,7 @@ function Login(props) {
                 name='password'
                 onChange={(e)=>handleUpdate(e)}
             />
+            {props.loginError && <p className='text-danger'>{props.loginError}</p>}
             <a href='/signup'><p className='mt-3'>don't have an account? sign up here!</p></a>
             <button className='btn btn-lg btn-primary btn-block' type='submit'>Sign In</button>
         </form>

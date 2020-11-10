@@ -36,7 +36,12 @@ def add_user(req) :
     user.first_name = body['first_name']
     user.last_name = body['last_name']
     user.save()
-    return HttpResponse(status=204)
+
+    login(req,user)
+    return JsonResponse({
+        'username': user.get_username(),
+        'name': user.get_full_name()
+    })
 
 def authenticate_user(req) :
     body = json.loads(req.body.decode('utf-8'))
@@ -44,7 +49,10 @@ def authenticate_user(req) :
     user = authenticate(req,username=body['username'],password=body['password'])
     if user is not None :
         login(req,user)
-        return HttpResponse(status=204)
+        return JsonResponse({
+            'username': user.get_username(),
+            'name': user.get_full_name()
+        })
     else :
         return HttpResponseBadRequest('Invalid login')
 
