@@ -6,6 +6,23 @@ from django.contrib.auth.models import User
 import django.middleware.csrf
 import json
 from django.contrib.auth import authenticate,login
+from rest_framework import viewsets, permissions
+from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
+
+class UserViewSet(viewsets.ModelViewSet) :
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class BooksViewSet(viewsets.ModelViewSet) :
+    queryset = Books.objects.all()
+    serializer_class = BooksSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LibraryViewSet(viewsets.ModelViewSet) :
+    queryset = Library.objects.all()
+    serializer_class = LibrarySerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 def index(req) :
     return HttpResponse('Yooo, you made it!')

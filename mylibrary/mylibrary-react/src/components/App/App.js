@@ -52,11 +52,15 @@ function App() {
   const handleLogin = (userData) => {
     axios({
       method:'post',
-      url:`http://localhost:8000/library/authuser`,
+      url:`http://localhost:8000/api/token/`,
       data: userData
     })
     .then(resp => {
-      setCurrentUser(resp.data)
+      console.log(resp)
+      setCurrentUser({
+        username:userData.username,
+        token:resp.data.access
+      })
       history.goBack();
     })
     .catch(err => {
