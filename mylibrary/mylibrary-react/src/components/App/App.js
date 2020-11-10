@@ -32,7 +32,7 @@ function App() {
     setLoginError(null)
     updateLibraryData()
   },[currentUser])
-  
+
   const updateLibraryData = () => {
     if (currentUser) {
       axios({
@@ -88,10 +88,12 @@ function App() {
       method: 'post',
       url: `http://localhost:8000/library/select`,
       data: {
-        key: identifier
+        key: identifier,
+        libraryid: 3
       }
     })
     .then(resp => {
+        updateLibraryData()
         history.push('/')
     })
   }

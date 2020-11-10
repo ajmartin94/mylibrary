@@ -16,7 +16,8 @@ def search(req,criteria) :
 
 def book_select(req) :
     body = json.loads(req.body.decode('utf-8'))
-    identifier = body.key
+    identifier = body['key']
+    library = Library.objects.get(pk=body['libraryid'])
     try:
         existing = Books.objects.get(library_id=identifier)
     except: 
@@ -28,9 +29,12 @@ def book_select(req) :
             data=book
         )
         new_book.save()
-        return JsonResponse(book)
+        
+        library.books.add(new_book)
+        return HttpResponse(status=204)
     else:
-        return JsonResponse(existing.data)
+        library.books.add(existing)
+        return HttpResponse(status=204)
 
 def add_user(req) :
     body = json.loads(req.body.decode('utf-8'))
@@ -64,8 +68,13 @@ def send_token(req) :
 def get_library_data(req) :
     body = json.loads(req.body.decode('utf-8'))
     user = User.objects.get(username=body['username'])
-    data = list(Library.objects.filter(userid=user).values())
-    return JsonResponse({'libraries':data})
+    # try:
+    data = Library.objects.filter(userid=user)
+    for i in data :
+        i.books.all()
+    # except: 
+    #     data = Library.objects.filter(userid=user).values()
+    return JsonResponse({'libraries':list(data)})
 
 def add_library(req) :
     body = json.loads(req.body.decode('utf-8'))
