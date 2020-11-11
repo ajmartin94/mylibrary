@@ -1,9 +1,15 @@
 import React,{useState,useEffect} from 'react';
+import LibraryContent from './LibraryContent';
+import styled from 'styled-components';
+
+const LibraryDiv = styled.div`
+    width: 75%;
+`
 
 function Library(props) {
     console.log(props.libraryData)
     return (
-        <div>
+        <LibraryDiv>
             <ul className='nav nav-tabs' id='libraryTabs' role='tablist'>
                 {props.libraryData.map((library,index) => {
                     return <li className='nav-item' role='presentation'>
@@ -25,11 +31,13 @@ function Library(props) {
                         id={'tab'+index}
                         role='tabpanel'
                         aria-labelledby={'tab'+index}
-                    >{library.name}</div>
+                    >
+                        <LibraryContent books={library.books} />
+                    </div>
                 })
                 }
             </div>
-        </div>
+        </LibraryDiv>
     )
 }
 
