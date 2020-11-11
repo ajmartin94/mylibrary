@@ -28,6 +28,7 @@ class BooksViewSet(viewsets.ModelViewSet) :
 
     def create(self,request) :
         data = json.loads(request.body.decode('utf-8'))
+        print(data)
         library = Library.objects.get(pk=data['libraryid'])
         try:
             existing = Books.objects.get(library_id=identifier)
@@ -38,7 +39,7 @@ class BooksViewSet(viewsets.ModelViewSet) :
 
             book = Books.objects.create(
                 title=book['title'],
-                library_id=identifier,
+                library_id=data['key'],
                 data=book
             )
             book.save()

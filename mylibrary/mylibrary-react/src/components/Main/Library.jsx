@@ -6,28 +6,36 @@ const LibraryDiv = styled.div`
     width: 75%;
 `
 
+const Tab = styled.div`
+    cursor: pointer;
+`
+
 function Library(props) {
-    console.log(props.libraryData)
+    const handleClick = (id) => {
+        console.log(id)
+        props.setActiveLibraryID(id)
+    }
+
     return (
         <LibraryDiv>
             <ul className='nav nav-tabs' id='libraryTabs' role='tablist'>
                 {props.libraryData.map((library,index) => {
                     return <li className='nav-item' role='presentation'>
-                        <a 
-                            className={index===0 ? 'nav-link active' : 'nav-link'}
+                        <Tab
+                            className={library.id===props.activeLibraryID ? 'nav-link active' : 'nav-link'}
                             data-toggle='tab'
-                            href={'#tab'+index}
                             role='tab'
                             aria-controls={'tab'+index}
                             aria-selected={index===0 ? 'true' : 'false'}
-                        >{library.name}</a>
+                            onClick={()=>handleClick(library.id)}
+                        >{library.name}</Tab>
                     </li>
                 })}
             </ul>
             <div className='tab-content' id='libraryContent'>
                 {props.libraryData.map((library,index)=>{
                     return <div 
-                        className={index===0 ? 'tab-pane fade show active' : 'tab-pane fade'}
+                        className={library.id===props.activeLibraryID ? 'tab-pane fade show active' : 'tab-pane fade'}
                         id={'tab'+index}
                         role='tabpanel'
                         aria-labelledby={'tab'+index}

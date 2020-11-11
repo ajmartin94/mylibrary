@@ -24,6 +24,7 @@ function App() {
   const [currentUser,setCurrentUser] = useState(null)
   const [loginError,setLoginError] = useState(null)
   const [validUser,setValidUser] = useState(false)
+  const [activeLibraryID,setActiveLibraryID] = useState(null)
 
   const history = useHistory();
 
@@ -39,7 +40,6 @@ function App() {
     }
     console.log(userData)
     if (userData.username) {
-      console.log('here')
       handleLogin(userData)
       history.push('/')
     }
@@ -53,7 +53,6 @@ function App() {
         }
       })
       .then(resp => {
-        console.log(resp)
         setLibraryData(resp.data);
       })
     }
@@ -106,10 +105,13 @@ function App() {
     const identifier = key.replace('/works/','');
     axios({
       method: 'POST',
-      url: `http://localhost:8000/api/books`,
+      url: `http://localhost:8000/api/books/`,
       data: {
         key: identifier,
-        libraryid: 3
+        libraryid: activeLibraryID
+      },
+      headers: {
+        Authorization: 'Bearer '+currentUser.token
       }
     })
     .then(resp => {
@@ -154,6 +156,8 @@ function App() {
             />
             <Library 
               libraryData={libraryData} 
+              activeLibraryID={activeLibraryID}
+              setActiveLibraryID={setActiveLibraryID}
             />
           </Route>
           <Route path='/signup'>

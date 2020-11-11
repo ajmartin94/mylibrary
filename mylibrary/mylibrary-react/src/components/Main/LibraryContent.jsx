@@ -17,7 +17,7 @@ function LibraryContent(props) {
                 />
                 <div className='card-body'>
                     <h5 className='card-title'>{book.title}</h5>
-                    <p className='card-text'>{book.data.description}</p>
+                    <p className='card-text'>{Object.keys(book.data.description).length > 0 ? book.data.description.value : book.data.description}</p>
                 </div>
             </BookCard>
         })}

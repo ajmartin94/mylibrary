@@ -9,7 +9,7 @@ function SearchForm(props) {
     const handleSearch = (e) => {
         e.preventDefault()
         const encodedSearchCriteria = encodeURI(searchCriteria);
-        axios.get(`http://localhost:8000/library/search/${encodedSearchCriteria}`)
+        axios.get(`http://openlibrary.org/search.json?title=${encodedSearchCriteria}`)
         .then(resp => {
             const relevant_data = resp.data.docs.slice(0,10)
             props.setSearchData(relevant_data)
