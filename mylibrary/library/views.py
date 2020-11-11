@@ -24,6 +24,9 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     serializer_class = LibrarySerializer
     permission_classes = [permissions.IsAuthenticated]
 
+def check_token(req) :
+    return HttpResponse(status=204)
+
 def index(req) :
     return HttpResponse('Yooo, you made it!')
 

@@ -25,13 +25,35 @@ function App() {
   const [libraryData,setLibraryData] = useState(null)
   const [currentUser,setCurrentUser] = useState(null)
   const [loginError,setLoginError] = useState(null)
+  const [validUser,setValidUser] = useState(false)
 
   const history = useHistory();
 
-  useEffect(()=>{
-    setLoginError(null)
-    updateLibraryData()
-  },[currentUser])
+  // useEffect(()=>{
+  //   setLoginError(null)
+  //   updateLibraryData()
+  // },[currentUser])
+
+  useEffect(()=> {
+    const userData = {
+      username: localStorage.getItem('username'),
+      token: localStorage.getItem('jwtoken')
+    }
+    
+    axios.get('http://localhost:8000/api/tokencheck',{
+      headers: {
+        Authentication: 'Bearer '+userData.token
+      }
+    })
+    .then(resp => {
+      setCurrentUser(userData)
+      setValidUser(true)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    
+  }, [validUser])
 
   const updateLibraryData = () => {
     if (currentUser) {
@@ -61,6 +83,8 @@ function App() {
         username:userData.username,
         token:resp.data.access
       })
+      localStorage.setItem('username',userData.username)
+      localStorage.setItem('jwtoken',resp.data.access)
       history.goBack();
     })
     .catch(err => {

@@ -18,7 +18,7 @@ function Header(props) {
                 <AddLibrary user={props.user} setVisible={setVisible}/>
             }
             {props.user ?
-                <Link className='nav-link' to='#' onClick={props.handleLogout}>Log Out, {props.user.name}</Link>
+                <Link className='nav-link' to='#' onClick={props.handleLogout}>Log Out, {props.user.username}</Link>
             :
                 <Link className='nav-link' to='/login'>Log in</Link>
             }
