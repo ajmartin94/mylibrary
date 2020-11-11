@@ -10,10 +10,9 @@ function AddLibrary(props) {
         e.preventDefault()
         axios({
             method: 'post',
-            url: 'http://localhost:8000/library/addlibrary',
+            url: 'http://localhost:8000/api/library/',
             data: {
-                name: name,
-                username: props.user.username
+                name: name
             }
         })
         .then(resp => {

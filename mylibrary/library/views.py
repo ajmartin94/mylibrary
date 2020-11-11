@@ -24,6 +24,12 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     serializer_class = LibrarySerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def retrieve(self,request,pk=None) :
+        user = User.objects.get(username=request.user.username)
+        queryset = Library.objects.filter(userid=user)
+        return JsonResponse(serializer_class(queryset).data)
+
+
 def check_token(req) :
     return HttpResponse(status=204)
 

@@ -10,7 +10,6 @@ import Library from '../Main/Library'
 import styled from 'styled-components';
 import {Switch,Route,useHistory} from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const Main = styled.div`
   display: flex;
@@ -20,7 +19,6 @@ const Main = styled.div`
 
 function App() {
 
-  const [data,setData] = useState(null)
   const [searchData,setSearchData] = useState(null)
   const [libraryData,setLibraryData] = useState(null)
   const [currentUser,setCurrentUser] = useState(null)
@@ -29,44 +27,33 @@ function App() {
 
   const history = useHistory();
 
-  // useEffect(()=>{
-  //   setLoginError(null)
-  //   updateLibraryData()
-  // },[currentUser])
+  useEffect(()=>{
+    setLoginError(null)
+    updateLibraryData()
+  },[currentUser])
 
   useEffect(()=> {
     const userData = {
       username: localStorage.getItem('username'),
-      token: localStorage.getItem('jwtoken')
+      password: localStorage.getItem('password')
     }
-    
-    axios.get('http://localhost:8000/api/tokencheck',{
-      headers: {
-        Authentication: 'Bearer '+userData.token
-      }
-    })
-    .then(resp => {
-      setCurrentUser(userData)
-      setValidUser(true)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    
+    console.log(userData)
+    if (userData.username) {
+      console.log('here')
+      handleLogin(userData)
+    }
   }, [validUser])
 
   const updateLibraryData = () => {
     if (currentUser) {
-      axios({
-        method: 'post',
-        url: `http://localhost:8000/library/data`,
-        data: {
-          username: currentUser.username
+      axios.get('http://localhost:8000/api/library',{
+        headers: {
+          Authorization: 'Bearer '+currentUser.token
         }
       })
       .then(resp => {
+        console.log(resp)
         setLibraryData(resp.data);
-        console.log('setting library data')
       })
     }
   }
@@ -84,7 +71,8 @@ function App() {
         token:resp.data.access
       })
       localStorage.setItem('username',userData.username)
-      localStorage.setItem('jwtoken',resp.data.access)
+      localStorage.setItem('password',userData.password)
+      setLoginError(null)
       history.goBack();
     })
     .catch(err => {
@@ -94,6 +82,8 @@ function App() {
 
   const handleLogout = () => {
     setCurrentUser(null)
+    localStorage.removeItem('username')
+    localStorage.removeItem('password')
   }
 
   const handleSignUp = async (userData) => {
