@@ -26,6 +26,29 @@ class BooksViewSet(viewsets.ModelViewSet) :
     serializer_class = BooksSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def create(self,request) :
+        data = json.loads(request.body.decode('utf-8'))
+        library = Library.objects.get(pk=data['libraryid'])
+        try:
+            existing = Books.objects.get(library_id=identifier)
+        except: 
+            key = data['key']
+            resp = requests.get(f'https://openlibrary.org/works/{key}.json')
+            book = resp.json()
+
+            book = Books.objects.create(
+                title=book['title'],
+                library_id=identifier,
+                data=book
+            )
+            book.save()
+            
+            library.books.add(book)
+        else:
+            library.books.add(existing)
+        return HttpResponse(status=204)
+        
+
 class LibraryViewSet(viewsets.ModelViewSet) :
     queryset = Library.objects.all()
     serializer_class = LibrarySerializer

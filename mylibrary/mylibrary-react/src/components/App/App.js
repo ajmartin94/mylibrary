@@ -105,8 +105,8 @@ function App() {
   const handleAddToLibrary = (key) => {
     const identifier = key.replace('/works/','');
     axios({
-      method: 'post',
-      url: `http://localhost:8000/library/select`,
+      method: 'POST',
+      url: `http://localhost:8000/api/books`,
       data: {
         key: identifier,
         libraryid: 3
@@ -114,7 +114,7 @@ function App() {
     })
     .then(resp => {
         updateLibraryData()
-        history.push('/')
+        history.go(-1)
     })
   }
 

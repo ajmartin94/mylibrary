@@ -26,5 +26,5 @@ class BooksSerializer(serializers.ModelSerializer) :
 class LibrarySerializer(serializers.ModelSerializer) :
     class Meta :
         model = Library
-        fields = ['url','name','books']
+        fields = ['url','id','name','books']
         depth = 1
