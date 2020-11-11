@@ -41,6 +41,7 @@ function App() {
     if (userData.username) {
       console.log('here')
       handleLogin(userData)
+      history.push('/')
     }
   }, [validUser])
 
@@ -65,7 +66,6 @@ function App() {
       data: userData
     })
     .then(resp => {
-      console.log(resp)
       setCurrentUser({
         username:userData.username,
         token:resp.data.access
@@ -86,13 +86,15 @@ function App() {
     localStorage.removeItem('password')
   }
 
-  const handleSignUp = async (userData) => {
-    await axios({
-      method: 'post',
-      url:`http://localhost:8000/library/adduser`,
+  const handleSignUp = (userData) => {
+    console.log(userData)
+    axios({
+      method: 'POST',
+      url:`http://localhost:8000/api/users/`,
       data: userData,
     })
     .then(resp => {
+      console.log(resp)
       setCurrentUser(resp.data)
       setLoginError(null)
       history.go(-2);
@@ -116,9 +118,28 @@ function App() {
     })
   }
 
+  const handleAddNewLibrary = (name) => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/library/',
+      data: {
+          name: name
+      },
+      headers: {
+        Authorization: 'Bearer '+currentUser.token
+      }
+    })
+    .then(resp => {
+      console.log(resp)
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
+  }
+
   return (
     <div>
-      <Header user={currentUser} handleLogout={handleLogout}/>
+      <Header user={currentUser} handleLogout={handleLogout} handleAddNewLibrary={handleAddNewLibrary}/>
       <Main>
         <Switch>
           <Route path='/results'>

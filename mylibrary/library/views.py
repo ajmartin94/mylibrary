@@ -14,6 +14,12 @@ class UserViewSet(viewsets.ModelViewSet) :
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_permissions(self) :
+        if self.request.method == 'POST' :
+            self.permission_classes = (permissions.AllowAny,)
+        
+        return super(UserViewSet,self).get_permissions()
+
 class BooksViewSet(viewsets.ModelViewSet) :
     queryset = Books.objects.all()
     serializer_class = BooksSerializer
@@ -24,11 +30,20 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     serializer_class = LibrarySerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def retrieve(self,request,pk=None) :
+    def list(self,request) :
         user = User.objects.get(username=request.user.username)
         queryset = Library.objects.filter(userid=user)
-        return JsonResponse(serializer_class(queryset).data)
+        return JsonResponse(LibrarySerializer(queryset).data)
 
+    def create(self,request) :
+        user = User.objects.get(username=request.user.username)
+        data = json.loads(request.body.decode('utf-8'))
+        library = Library.objects.create(
+            name=data['name'],
+            userid=user
+        )
+        library.save()
+        return HttpResponse(status=204)
 
 def check_token(req) :
     return HttpResponse(status=204)

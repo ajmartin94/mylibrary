@@ -15,7 +15,7 @@ function Header(props) {
             {!visible ? 
                 <button className='btn btn-secondary' onClick={flipVisible}>Add New Library</button>
             :
-                <AddLibrary user={props.user} setVisible={setVisible}/>
+                <AddLibrary user={props.user} setVisible={setVisible} handleAddNewLibrary={props.handleAddNewLibrary}/>
             }
             {props.user ?
                 <Link className='nav-link' to='#' onClick={props.handleLogout}>Log Out, {props.user.username}</Link>

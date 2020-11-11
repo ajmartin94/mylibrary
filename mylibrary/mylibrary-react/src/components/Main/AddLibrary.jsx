@@ -8,19 +8,10 @@ function AddLibrary(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios({
-            method: 'post',
-            url: 'http://localhost:8000/api/library/',
-            data: {
-                name: name
-            }
-        })
-        .then(resp => {
-            setName('')
-            props.setVisible(false)
-            history.push('/library')
-        })
-
+        props.handleAddNewLibrary(name)
+        setName('')
+        props.setVisible(false)
+        history.push('/library')
     }
 
     const updateName = (e) => {
