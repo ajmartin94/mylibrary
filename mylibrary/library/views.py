@@ -7,6 +7,7 @@ import django.middleware.csrf
 import json
 from django.contrib.auth import authenticate,login
 from rest_framework import viewsets, permissions
+from rest_framework.response import Response
 from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
 
 class UserViewSet(viewsets.ModelViewSet) :
@@ -33,7 +34,8 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     def list(self,request) :
         user = User.objects.get(username=request.user.username)
         queryset = Library.objects.filter(userid=user)
-        return JsonResponse(LibrarySerializer(queryset).data)
+        serializer = LibrarySerializer(queryset,many=True,context={'request': request})
+        return Response(serializer.data)
 
     def create(self,request) :
         user = User.objects.get(username=request.user.username)

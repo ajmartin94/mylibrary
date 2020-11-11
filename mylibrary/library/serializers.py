@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from .models import Books,Library
 from rest_framework import serializers
 
-class UserSerializer(serializers.HyperlinkedModelSerializer) :
+class UserSerializer(serializers.ModelSerializer) :
     class Meta :
         model = User
         fields = ['url','username','email','first_name','last_name','password']
@@ -18,12 +18,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer) :
         user.save()
         return user
 
-class BooksSerializer(serializers.HyperlinkedModelSerializer) :
+class BooksSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Books
         fields = ['url','title','library_id','data']
     
-class LibrarySerializer(serializers.HyperlinkedModelSerializer) :
+class LibrarySerializer(serializers.ModelSerializer) :
     class Meta :
         model = Library
         fields = ['url','name','userid','books']
+        depth = 1
