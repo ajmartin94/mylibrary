@@ -83,6 +83,7 @@ function App() {
     setCurrentUser(null)
     localStorage.removeItem('username')
     localStorage.removeItem('password')
+    setLibraryData(null)
   }
 
   const handleSignUp = (userData) => {
@@ -139,6 +140,19 @@ function App() {
     })
   }
 
+  const handleDeleteLibrary = (id) => {
+    axios({
+      method: 'DELETE',
+      url: `http://localhost:8000/api/library/${id}`,
+      headers: {
+        Authorization: 'Bearer '+currentUser.token
+      }
+    })
+    .then(resp=>{
+      updateLibraryData()
+    })
+  }
+
   return (
     <div>
       <Header user={currentUser} handleLogout={handleLogout} />
@@ -159,6 +173,7 @@ function App() {
               activeLibraryID={activeLibraryID}
               setActiveLibraryID={setActiveLibraryID}
               handleAddNewLibrary={handleAddNewLibrary}
+              handleDeleteLibrary={handleDeleteLibrary}
             />
           </Route>
           <Route path='/signup'>
