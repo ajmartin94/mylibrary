@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import styled from 'styled-components';
+import Details from './Details';
 
 const BookCard = styled.div`
     width: 25%;
@@ -27,26 +28,7 @@ function LibraryContent(props) {
                     </div>
                 </BookCard>
             })}
-            {/* <div className="modal show fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="detailsModalLabel">{activeBook.title}</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="media">
-                                <img src={`http://covers.openlibrary.org/b/id/${activeBook.data.covers[0]}-M.jpg`} className="mr-3" alt="..." />
-                                <div className="media-body">
-                                    {activeBook.data.description}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+            {activeBook && <Details book={activeBook} setActiveBook={setActiveBook}/>}
         </>
     )
 }
