@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import LibraryContent from './LibraryContent';
 import styled from 'styled-components';
+import AddLibrary from './AddLibrary'
 
 const LibraryDiv = styled.div`
     width: 75%;
@@ -11,6 +12,12 @@ const Tab = styled.div`
 `
 
 function Library(props) {
+    const [visible,setVisible] = useState(false)
+
+    const flipVisible = () => {
+        setVisible(!visible)
+    }
+
     const handleClick = (id) => {
         console.log(id)
         props.setActiveLibraryID(id)
@@ -31,6 +38,18 @@ function Library(props) {
                         >{library.name}</Tab>
                     </li>
                 })}
+                <li className='nav-item' role='presentation'>
+                    <Tab 
+                        className='nav-link'
+                        onClick={visible ? null : flipVisible}
+                    >
+                        {visible ? 
+                            <AddLibrary user={props.user} setVisible={setVisible} handleAddNewLibrary={props.handleAddNewLibrary}/>
+                        : 
+                            '+ Add New Library'
+                        }
+                    </Tab>
+                </li>
             </ul>
             <div className='tab-content' id='libraryContent'>
                 {props.libraryData.map((library,index)=>{

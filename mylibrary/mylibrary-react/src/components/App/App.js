@@ -132,7 +132,7 @@ function App() {
       }
     })
     .then(resp => {
-      console.log(resp)
+      updateLibraryData()
     })
     .catch(err => {
       console.log(err.response)
@@ -141,7 +141,7 @@ function App() {
 
   return (
     <div>
-      <Header user={currentUser} handleLogout={handleLogout} handleAddNewLibrary={handleAddNewLibrary}/>
+      <Header user={currentUser} handleLogout={handleLogout} />
       <Main>
         <Switch>
           <Route path='/results'>
@@ -158,6 +158,7 @@ function App() {
               libraryData={libraryData} 
               activeLibraryID={activeLibraryID}
               setActiveLibraryID={setActiveLibraryID}
+              handleAddNewLibrary={handleAddNewLibrary}
             />
           </Route>
           <Route path='/signup'>

@@ -26,6 +26,8 @@ function AddLibrary(props) {
                 placeholder='library name'
                 className='form-control mb-2 mr-sm-2' 
                 onChange={(e)=>{updateName(e)}}
+                autoFocus
+                onBlur={()=>props.setVisible(false)}
             />
             <button type='submit' className='btn btn-primary mb-2'>Add Library</button>
         </form>
