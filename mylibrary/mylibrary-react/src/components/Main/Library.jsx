@@ -9,6 +9,9 @@ const LibraryDiv = styled.div`
     flex-direction: column;
     align-items: center;
 `
+const LibraryContentDiv = styled.div`
+    width: 100%;
+`
 
 const Tab = styled.div`
     cursor: pointer;
@@ -92,7 +95,7 @@ function Library(props) {
                         </Tab>
                     </li>
                 </ul>
-                <div className='tab-content' id='libraryContent'>
+                <LibraryContentDiv className='tab-content' id='libraryContent'>
                     {props.libraryData.map((library,index)=>{
                         return <div 
                             className={library.id===props.activeLibraryID ? 'tab-pane fade show active' : 'tab-pane fade'}
@@ -104,7 +107,7 @@ function Library(props) {
                         </div>
                     })
                     }
-                </div>
+                </LibraryContentDiv>
             </LibraryDiv>
             <div 
                 className='modal fade' 

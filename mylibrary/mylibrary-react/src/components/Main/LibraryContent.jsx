@@ -3,8 +3,18 @@ import styled from 'styled-components';
 import Details from './Details';
 
 const BookCard = styled.div`
-    width: 25%;
+    width: 10%;
     cursor: pointer;
+`
+
+const BookTitle = styled.h5`
+    font-size: 1rem;
+    margin: 0;
+    text-align: center;
+`
+
+const CardBody = styled.div`
+    padding: 2px;
 `
 
 function LibraryContent(props) {
@@ -22,10 +32,9 @@ function LibraryContent(props) {
                         data-target='detailsModal' 
                         onClick={()=>setActiveBook(book)}  
                     />
-                    <div className='card-body'>
-                        <h5 className='card-title'>{book.title}</h5>
-                        {/* <p className='card-text'>{typeof book.data.description !== 'string' && Object.keys(book.data.description).length > 0 ? book.data.description.value : book.data.description}</p> */}
-                    </div>
+                    <CardBody className='card-body'>
+                        <BookTitle className='card-title'>{book.title}</BookTitle>
+                    </CardBody>
                 </BookCard>
             })}
             {activeBook && <Details book={activeBook} setActiveBook={setActiveBook}/>}
