@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate,login
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
+import sys
 
 print('i am alive')
 class UserViewSet(viewsets.ModelViewSet) :
@@ -64,90 +65,94 @@ class LibraryViewSet(viewsets.ModelViewSet) :
         return Response(serializer.data)
 
     def create(self,request) :
-        print('made it to list creation')
-        user = User.objects.get(username=request.user.username)
-        data = json.loads(request.body.decode('utf-8'))
-        library = Library.objects.create(
-            name=data['name'],
-            userid=user
-        )
-        library.save()
+        try:
+            user = User.objects.get(username=request.user.username)
+            data = json.loads(request.body.decode('utf-8'))
+            library = Library.objects.create(
+                name=data['name'],
+                userid=user
+            )
+            library.save()
+        except:
+            e = sys.exc_info()[0]
+            print(e)
+
         return HttpResponse(status=204)
 
-def check_token(req) :
-    return HttpResponse(status=204)
+# def check_token(req) :
+#     return HttpResponse(status=204)
 
-def index(req) :
-    return HttpResponse('Yooo, you made it!')
+# def index(req) :
+#     return HttpResponse('Yooo, you made it!')
 
-def search(req,criteria) :
-    resp = requests.get(f'http://openlibrary.org/search.json?title={criteria}')
-    return JsonResponse(resp.json())
+# def search(req,criteria) :
+#     resp = requests.get(f'http://openlibrary.org/search.json?title={criteria}')
+#     return JsonResponse(resp.json())
 
-def book_select(req) :
-    body = json.loads(req.body.decode('utf-8'))
-    identifier = body['key']
-    library = Library.objects.get(pk=body['libraryid'])
-    try:
-        existing = Books.objects.get(library_id=identifier)
-    except: 
-        resp = requests.get(f'https://openlibrary.org/works/{identifier}.json')
-        book = resp.json()
-        new_book = Books(
-            title=book['title'],
-            library_id=identifier,
-            data=book
-        )
-        new_book.save()
+# def book_select(req) :
+#     body = json.loads(req.body.decode('utf-8'))
+#     identifier = body['key']
+#     library = Library.objects.get(pk=body['libraryid'])
+#     try:
+#         existing = Books.objects.get(library_id=identifier)
+#     except: 
+#         resp = requests.get(f'https://openlibrary.org/works/{identifier}.json')
+#         book = resp.json()
+#         new_book = Books(
+#             title=book['title'],
+#             library_id=identifier,
+#             data=book
+#         )
+#         new_book.save()
         
-        library.books.add(new_book)
-        return HttpResponse(status=204)
-    else:
-        library.books.add(existing)
-        return HttpResponse(status=204)
+#         library.books.add(new_book)
+#         return HttpResponse(status=204)
+#     else:
+#         library.books.add(existing)
+#         return HttpResponse(status=204)
 
-def add_user(req) :
-    body = json.loads(req.body.decode('utf-8'))
-    user = User.objects.create_user(body['username'],body['email'],body['password'])
-    user.first_name = body['first_name']
-    user.last_name = body['last_name']
-    user.save()
+# def add_user(req) :
+#     body = json.loads(req.body.decode('utf-8'))
+#     user = User.objects.create_user(body['username'],body['email'],body['password'])
+#     user.first_name = body['first_name']
+#     user.last_name = body['last_name']
+#     user.save()
 
-    login(req,user)
-    return JsonResponse({
-        'username': user.get_username(),
-        'name': user.get_full_name()
-    })
+#     login(req,user)
+#     return JsonResponse({
+#         'username': user.get_username(),
+#         'name': user.get_full_name()
+#     })
 
-def authenticate_user(req) :
-    body = json.loads(req.body.decode('utf-8'))
-    user = authenticate(req,username=body['username'],password=body['password'])
-    if user is not None :
-        login(req,user)
-        return JsonResponse({
-            'username': user.get_username(),
-            'name': user.get_full_name()
-        })
-    else :
-        return HttpResponseBadRequest('Invalid login')
+# def authenticate_user(req) :
+#     body = json.loads(req.body.decode('utf-8'))
+#     user = authenticate(req,username=body['username'],password=body['password'])
+#     if user is not None :
+#         login(req,user)
+#         return JsonResponse({
+#             'username': user.get_username(),
+#             'name': user.get_full_name()
+#         })
+#     else :
+#         return HttpResponseBadRequest('Invalid login')
 
 
-def send_token(req) :
-    return HttpResponse(django.middleware.csrf.get_token(req))
+# def send_token(req) :
+#     return HttpResponse(django.middleware.csrf.get_token(req))
 
-def get_library_data(req) :
-    body = json.loads(req.body.decode('utf-8'))
-    user = User.objects.get(username=body['username'])
-    # try:
-    data = Library.objects.filter(userid=user)
-    for i in data :
-        i.books.all()
-    # except: 
-    #     data = Library.objects.filter(userid=user).values()
-    return JsonResponse({'libraries':list(data)})
+# def get_library_data(req) :
+#     body = json.loads(req.body.decode('utf-8'))
+#     user = User.objects.get(username=body['username'])
+#     # try:
+#     data = Library.objects.filter(userid=user)
+#     for i in data :
+#         i.books.all()
+#     # except: 
+#     #     data = Library.objects.filter(userid=user).values()
+#     return JsonResponse({'libraries':list(data)})
 
-def add_library(req) :
-    body = json.loads(req.body.decode('utf-8'))
-    user = User.objects.get(username=body['username'])
-    library = Library.objects.create(name=body['name'],userid=user)
-    return HttpResponse(status=204)
+# def add_library(req) :
+#     body = json.loads(req.body.decode('utf-8'))
+#     user = User.objects.get(username=body['username'])
+#     library = Library.objects.create(name=body['name'],userid=user)
+#     return HttpResponse(status=204)
