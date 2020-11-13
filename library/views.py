@@ -67,6 +67,7 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     def create(self,request) :
         try:
             user = User.objects.get(username=request.user.username)
+            print(request.body)
             data = json.loads(request.body.decode('utf-8'))
             library = Library.objects.create(
                 name=data['name'],
