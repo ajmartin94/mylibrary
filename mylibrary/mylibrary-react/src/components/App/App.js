@@ -18,8 +18,6 @@ const Main = styled.div`
 `
 
 function App() {
-
-  const [searchData,setSearchData] = useState(null)
   const [libraryData,setLibraryData] = useState(null)
   const [currentUser,setCurrentUser] = useState(null)
   const [loginError,setLoginError] = useState(null)
@@ -158,23 +156,17 @@ function App() {
       <Header user={currentUser} handleLogout={handleLogout} />
       <Main>
         <Switch>
-          <Route path='/results'>
-            <SearchResults 
-              searchData={searchData}
-              handleAddToLibrary={handleAddToLibrary} 
-            />
-          </Route>
-          <Route path='/library'>
-            <SearchForm 
-              setSearchData={setSearchData}  
-            />
-            <Library 
-              libraryData={libraryData} 
-              activeLibraryID={activeLibraryID}
-              setActiveLibraryID={setActiveLibraryID}
-              handleAddNewLibrary={handleAddNewLibrary}
-              handleDeleteLibrary={handleDeleteLibrary}
-            />
+          <Route path='/'>
+            {libraryData &&
+              <Library 
+                libraryData={libraryData} 
+                activeLibraryID={activeLibraryID}
+                setActiveLibraryID={setActiveLibraryID}
+                handleAddNewLibrary={handleAddNewLibrary}
+                handleDeleteLibrary={handleDeleteLibrary}
+                handleAddToLibrary={handleAddToLibrary} 
+              />
+            } 
           </Route>
           <Route path='/signup'>
             <SignUp handleSignUp={handleSignUp} />

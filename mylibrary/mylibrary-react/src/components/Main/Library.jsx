@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import LibraryContent from './LibraryContent';
 import styled from 'styled-components';
 import AddLibrary from './AddLibrary'
+import SearchForm from './SearchForm'
 
 const LibraryDiv = styled.div`
     width: 75%;
@@ -10,6 +11,12 @@ const LibraryDiv = styled.div`
     align-items: center;
 `
 const LibraryContentDiv = styled.div`
+    width: 100%;
+    display: flex !important;
+    justify-content: center;
+`
+
+const LibraryContentWrapper = styled.div`
     width: 100%;
 `
 
@@ -45,6 +52,9 @@ function Library(props) {
 
     return (
         <>
+            <SearchForm 
+                handleAddToLibrary={props.handleAddToLibrary}
+            />
             <LibraryDiv>
                 <ul className='nav nav-tabs' id='libraryTabs' role='tablist'>
                     {props.libraryData.map((library,index) => {
@@ -95,19 +105,19 @@ function Library(props) {
                         </Tab>
                     </li>
                 </ul>
-                <LibraryContentDiv className='tab-content' id='libraryContent'>
+                <LibraryContentWrapper className='tab-content' id='libraryContent'>
                     {props.libraryData.map((library,index)=>{
-                        return <div 
+                        return <LibraryContentDiv 
                             className={library.id===props.activeLibraryID ? 'tab-pane fade show active' : 'tab-pane fade'}
                             id={'tab'+index}
                             role='tabpanel'
                             aria-labelledby={'tab'+index}
                         >
                             <LibraryContent books={library.books} />
-                        </div>
+                        </LibraryContentDiv>
                     })
                     }
-                </LibraryContentDiv>
+                </LibraryContentWrapper>
             </LibraryDiv>
             <div 
                 className='modal fade' 
