@@ -69,7 +69,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 from corsheaders.defaults import default_headers
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://mylibrary.surge.sh"
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
