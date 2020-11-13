@@ -23,7 +23,7 @@ urlpatterns = [
     path('',include(router.urls)),
     path('token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('token/refresh',TokenRefreshView.as_view(),name='token_refresh'),
-    path('tokencheck/',views.check_token),
-    path('users/register',views.add_user)
+    # path('tokencheck/',views.check_token),
+    # path('users/register',views.add_user)
     # path('api-auth/',include('rest_framework.urls', namespace='rest_framework'))
 ]
