@@ -10,11 +10,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
 
-import logging
-logger = logging.getLogger('testlogger')
-logger.info('This is a simple log message')
-
-
+print('i am alive')
 class UserViewSet(viewsets.ModelViewSet) :
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -61,6 +57,7 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self,request) :
+        print('made it to list printing')
         user = User.objects.get(username=request.user.username)
         queryset = Library.objects.filter(userid=user)
         serializer = LibrarySerializer(queryset,many=True,context={'request': request})
