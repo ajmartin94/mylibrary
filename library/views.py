@@ -64,6 +64,7 @@ class LibraryViewSet(viewsets.ModelViewSet) :
         return Response(serializer.data)
 
     def create(self,request) :
+        print('made it to list creation')
         user = User.objects.get(username=request.user.username)
         data = json.loads(request.body.decode('utf-8'))
         library = Library.objects.create(
