@@ -9,6 +9,13 @@ from django.contrib.auth import authenticate,login
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
+import logging
+import sys
+
+logger = logging.getLogger('MYAPP')
+logger.info('My message here...')
+sys.stdout.flush()
+
 
 class UserViewSet(viewsets.ModelViewSet) :
     queryset = User.objects.all()
