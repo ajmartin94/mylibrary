@@ -28,13 +28,3 @@ class LibrarySerializer(serializers.ModelSerializer) :
         model = Library
         fields = ['url','id','name','books']
         depth = 1
-
-    def create(self,data) :
-        user = User.objects.get(username=self.request.user.username)
-        # data = json.loads(request.body.decode('utf-8'))
-        library = Library.objects.create(
-            name=data['name'],
-            userid=user
-        )
-        library.save()
-        return library

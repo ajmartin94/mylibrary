@@ -64,20 +64,20 @@ class LibraryViewSet(viewsets.ModelViewSet) :
         serializer = LibrarySerializer(queryset,many=True,context={'request': request})
         return Response(serializer.data)
 
-    # def create(self,request) :
-    #     try:
-    #         user = User.objects.get(username=request.user.username)
-    #         data = json.loads(request.body.decode('utf-8'))
-    #         library = Library.objects.create(
-    #             name=data['name'],
-    #             userid=user
-    #         )
-    #         library.save()
-    #     except:
-    #         e = sys.exc_info()[0]
-    #         print(e)
+    def create(self,request) :
+        try:
+            user = User.objects.get(username=request.user.username)
+            data = json.loads(request.body.decode('utf-8'))
+            library = Library.objects.create(
+                name=data['name'],
+                userid=user
+            )
+            library.save()
+        except:
+            e = sys.exc_info()[0]
+            return HttpResponse(e)
 
-    #     return HttpResponse(status=204)
+        return HttpResponse(status=204)
 
 # def check_token(req) :
 #     return HttpResponse(status=204)
