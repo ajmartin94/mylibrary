@@ -170,6 +170,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
 #Logging settings
+import sys
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -192,7 +193,8 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+            'formatter': 'verbose',
+            'stream':sys.stdout
         }
     },
     'loggers': {
