@@ -190,14 +190,13 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'stream': sys.stdout,
+            'formatter': 'verbose'
         }
     },
     'loggers': {
-        'MYAPP': {
+        'testlogger': {
             'handlers': ['console'],
             'level': 'INFO',
         }

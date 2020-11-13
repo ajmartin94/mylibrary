@@ -9,12 +9,10 @@ from django.contrib.auth import authenticate,login
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .serializers import UserSerializer,BooksSerializer,LibrarySerializer
-import logging
-import sys
 
-logger = logging.getLogger('MYAPP')
-logger.info('My message here...')
-sys.stdout.flush()
+import logging
+logger = logging.getLogger('testlogger')
+logger.info('This is a simple log message')
 
 
 class UserViewSet(viewsets.ModelViewSet) :
