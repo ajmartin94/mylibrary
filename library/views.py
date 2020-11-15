@@ -18,7 +18,7 @@ class UserViewSet(viewsets.ModelViewSet) :
     permission_classes = [permissions.IsAuthenticated]
 
     def get_permissions(self) :
-        if self.request.method == 'POST' :
+        if self.request.method == 'POST' or self.request.method == 'GET':
             self.permission_classes = (permissions.AllowAny,)
         
         return super(UserViewSet,self).get_permissions()
@@ -63,9 +63,16 @@ class LibraryViewSet(viewsets.ModelViewSet) :
     serializer_class = LibrarySerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_permissions(self) :
+        if self.request.method == 'GET' and 'username' in self.request.query_params.keys() :
+            self.permission_classes = (permissions.AllowAny,)
+        return super(LibraryViewSet,self).get_permissions()
+
     def list(self,request) :
-        print('made it to list printing')
-        user = User.objects.get(username=request.user.username)
+        if 'username' in self.request.query_params.keys() :
+            user = User.objects.get(username=request.query_params['username'])
+        else :
+            user = User.objects.get(username=request.user.username)
         queryset = Library.objects.filter(userid=user)
         serializer = LibrarySerializer(queryset,many=True,context={'request': request})
         return Response(serializer.data)
