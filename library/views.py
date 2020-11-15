@@ -50,6 +50,12 @@ class BooksViewSet(viewsets.ModelViewSet) :
         else:
             library.books.add(existing)
         return HttpResponse(status=204)
+
+    def destroy(self,request,pk=None) :
+        library = Library.objects.get(pk=request.query_params['libraryId'])
+        book = Books.objects.get(pk=pk)
+        library.books.remove(book)
+        return HttpResponse(status=200)
         
 
 class LibraryViewSet(viewsets.ModelViewSet) :
