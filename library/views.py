@@ -107,3 +107,11 @@ class RatingsViewSet(viewsets.ModelViewSet) :
         Ratings.objects.create(rating=data['rating'],userid=user,bookid=book)
 
         return HttpResponse(status=200)
+
+    def partial_update(self,request,pk=None) :
+        data = json.loads(request.body.decode('utf-8'))
+        rating = Ratings.objects.get(pk=pk)
+        rating.rating = data['rating']
+        rating.save()
+
+        return HttpResponse(status=200)
