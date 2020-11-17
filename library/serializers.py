@@ -18,10 +18,17 @@ class UserSerializer(serializers.ModelSerializer) :
         user.save()
         return user
 
+class UserSerializerSecure(serializers.ModelSerializer) :
+    class Meta :
+        model = User
+        fields = ['username']
+
 class RatingsSerializer(serializers.ModelSerializer) :
+    userid = UserSerializerSecure(many=False)
     class Meta :
         model = Ratings
-        fields = ['id','rating','userid','bookid']
+        fields = ['id','rating','userid']
+        depth = 1
 
 class BooksSerializer(serializers.ModelSerializer) :
     ratings = RatingsSerializer(source='ratings_set',many=True)
