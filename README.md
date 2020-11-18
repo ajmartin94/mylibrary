@@ -3,6 +3,12 @@
 ## Project Intro
 MyLibrary is a full stack app designed to give users a place to create a virtual library. Users can save books to a library, make multiple libraries, view other users' library collections, and even rate any book in their library. 
 
+## Technology Used
+- React, Styled Components, Bootstrap
+- React-Bootstrap, React Router, Axios
+- Python, Django, Django Rest Framework
+- Django CORS, SimpleJWT
+
 ## ERD
 !['ERD image'](https://i.imgur.com/hpT1aSr.jpg)
 
